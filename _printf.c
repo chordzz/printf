@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _printf - converts formatted output and prints data.
+ * _printf - formatted output conversion and print data.
  * @format: input string.
  *
  * Return: number of chars printed.
@@ -43,7 +43,7 @@ int _printf(const char *format, ...)
 		}
 		else
 			handl_buf(buffer, format[i], ibuf), len++;
-		for (ibuf = len; buf_count > 1024; buf_count -= 1024)
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
 			;
 	}
 	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
