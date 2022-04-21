@@ -1,14 +1,14 @@
 #include "main.h"
 
 /**
- * _printf - converts formatted output and prints data.
+ * _printf - formatted output conversion and print data.
  * @format: input string.
  *
  * Return: number of chars printed.
  */
 int _printf(const char *format, ...)
 {
-	unsigned int i = 0, len = 0, buf_count = 0;
+	unsigned int i = 0, len = 0, ibuf = 0;
 	va_list arguments;
 	int (*function)(va_list, char *, unsigned int);
 	char *buffer;
@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			if (format[i + 1] == '\0')
-			{	print_buf(buffer, buf_count), free(buffer), va_end(arguments);
+			{	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
 				return (-1);
 			}
 			else
@@ -32,20 +32,20 @@ int _printf(const char *format, ...)
 				{
 					if (format[i + 1] == ' ' && !format[i + 2])
 						return (-1);
-					handl_buf(buffer, format[i], buf_count), len++, i--;
+					handl_buf(buffer, format[i], ibuf), len++, i--;
 				}
 				else
 				{
-					len += function(arguments, buffer, buf_count);
+					len += function(arguments, buffer, ibuf);
 					i += ev_print_func(format, i + 1);
 				}
 			} i++;
 		}
 		else
-			handl_buf(buffer, format[i], buf_count), len++;
-		for (buf_count = len; buf_count > 1024; buf_count -= 1024)
+			handl_buf(buffer, format[i], ibuf), len++;
+		for (ibuf = len; ibuf > 1024; ibuf -= 1024)
 			;
 	}
-	print_buf(buffer, buf_count), free(buffer), va_end(arguments);
+	print_buf(buffer, ibuf), free(buffer), va_end(arguments);
 	return (len);
 }
